@@ -4,7 +4,6 @@ import * as long from 'long';
 import * as mocha from 'mocha';
 import { PSTFile } from '../PSTFile/PSTFile.class';
 import { PSTFolder } from '../PSTFolder/PSTFolder.class';
-import { Log } from '../Log.class';
 const resolve = require('path').resolve;
 const expect = chai.expect;
 let pstFile: PSTFile;
@@ -56,7 +55,6 @@ describe('PSTMessage tests', () => {
         const comGroupFolder = childFolders[0];
         
         let msg: PSTMessage = comGroupFolder.getNextChild();
-        // Log.debug1(JSON.stringify(msg, null, 2));
         expect(msg.messageClass).to.equal('IPM.Note');
         expect(msg.subject).to.equal("New OBA's");
         expect(msg.sentRepresentingEmailAddress).to.equal('Dennis.Lee@ENRON.com');
@@ -175,7 +173,6 @@ describe('PSTMessage tests', () => {
         const personalFolder = childFolders[3];
         
         let msg: PSTMessage = personalFolder.getNextChild();
-        // Log.debug1(JSON.stringify(msg, null, 2));
         expect(msg.messageClass).to.equal('IPM.Note');
         expect(msg.subject).to.equal("Fwd: Enjoy fall in an Alamo midsize car -- just $169 a week!");
     });

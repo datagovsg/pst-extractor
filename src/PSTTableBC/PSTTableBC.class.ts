@@ -37,7 +37,6 @@ import { PSTDescriptorItem } from '../PSTDescriptorItem/PSTDescriptorItem.class'
 import { NodeInfo } from '../NodeInfo/NodeInfo.class';
 import { PSTUtil } from '../PSTUtil/PSTUtil.class';
 import * as long from 'long';
-import { Log } from '../Log.class';
 import { PSTTableItem } from '../PSTTableItem/PSTTableItem.class';
 
 export class PSTTableBC extends PSTTable {

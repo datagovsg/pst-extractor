@@ -41,7 +41,6 @@ import { PSTObject } from '../PSTObject/PSTObject.class';
 import { PSTTableBC } from '../PSTTableBC/PSTTableBC.class';
 import { PSTTableItem } from '../PSTTableItem/PSTTableItem.class';
 import { PSTUtil } from '../PSTUtil/PSTUtil.class';
-import { Log } from '../Log.class';
 import * as fs from 'fs';
 import * as util from 'util';
 import * as long from 'long';
@@ -230,7 +229,6 @@ export class PSTFile {
             } else {
                 guidIndexes[i] = -1; // We don't know this guid
             }
-            Log.debug2('PSTFile:: processNameToIdMap idx: ' + i + ', ' + strUID + ', ' + guidIndexes[i]);
             offset += 16;
         }
 
@@ -501,8 +499,6 @@ export class PSTFile {
             this.seek(btreeStartOffset);
             this.readCompletely(branchNodeItems);
 
-            Log.debug2('PSTFile::findBtreeItem btreeStartOffset = ' + btreeStartOffset);
-
             let numberOfItems = 0;
             if (this._pstFileType === PSTFile.PST_TYPE_2013_UNICODE) {
                 let numberOfItemsBytes = new Buffer(2);
@@ -578,7 +574,6 @@ export class PSTFile {
                                 buffer = new Buffer(12);
                                 this.seek(btreeStartOffset.add(x * 12));
                                 this.readCompletely(buffer);
-                                Log.debug2('PSTFile::findBtreeItem ' + index.toString() + ' found!');
                                 return buffer;
                             }
                         }
@@ -593,7 +588,6 @@ export class PSTFile {
                                 buffer = new Buffer(32);
                                 this.seek(btreeStartOffset.add(x * 32));
                                 this.readCompletely(buffer);
-                                Log.debug2('PSTFile::findBtreeItem ' + index.toString() + ' found!');
                                 return buffer;
                             }
                         } else {
@@ -604,7 +598,6 @@ export class PSTFile {
                                 buffer = new Buffer(24);
                                 this.seek(btreeStartOffset.add(x * 24));
                                 this.readCompletely(buffer);
-                                Log.debug2('PSTFile::findBtreeItem ' + index.toString() + ' found!');
                                 return buffer;
                             }
                         }
@@ -623,7 +616,6 @@ export class PSTFile {
      * @memberof PSTFile
      */
     public getDescriptorIndexNode(id: long): DescriptorIndexNode {
-        Log.debug2('PSTFile::getDescriptorIndexNode ' + id.toString())
         return new DescriptorIndexNode(this.findBtreeItem(id, true), this._pstFileType);
     }
 

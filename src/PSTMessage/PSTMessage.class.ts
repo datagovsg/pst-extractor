@@ -43,7 +43,6 @@ import { PSTNodeInputStream } from '../PSTNodeInputStream/PSTNodeInputStream.cla
 import { PSTUtil } from '../PSTUtil/PSTUtil.class';
 import * as long from 'long';
 import { PSTTableItem } from '../PSTTableItem/PSTTableItem.class';
-import { Log } from '../Log.class';
 import { OutlookProperties } from '../OutlookProperties';
 
 enum PidTagMessageFlags {
@@ -205,7 +204,7 @@ export class PSTMessage extends PSTObject {
                 this.recipientTable = new PSTTable7C(new PSTNodeInputStream(this.pstFile, item), descriptorItems);
             }
         } catch (err) {
-            Log.error('PSTMessage::processRecipients\n' + err);
+            console.error('PSTMessage::processRecipients\n' + err);
             this.recipientTable = null;
         }
     }
@@ -450,7 +449,7 @@ export class PSTMessage extends PSTObject {
         try {
             this.processAttachments();
         } catch (err) {
-            Log.error('PSTMessage::numberOfAttachments\n' + err);
+            console.error('PSTMessage::numberOfAttachments\n' + err);
             return 0;
         }
         return this.attachmentTable ? this.attachmentTable.rowCount : 0;
@@ -1237,7 +1236,7 @@ export class PSTMessage extends PSTObject {
                     }
                 }
             } catch (err) {
-                Log.error('PSTMessage::colorCategories Unable to decode category data\n' + err);
+                console.error('PSTMessage::colorCategories Unable to decode category data\n' + err);
                 throw err;
             }
         }

@@ -37,7 +37,6 @@ import { PSTDescriptorItem } from '../PSTDescriptorItem/PSTDescriptorItem.class'
 import { PSTUtil } from '../PSTUtil/PSTUtil.class';
 import * as long from 'long';
 import * as zlib from 'zlib';
-import { Log } from '../Log.class';
 
 export class PSTNodeInputStream {
     private skipPoints: long[] = [];
@@ -127,11 +126,6 @@ export class PSTNodeInputStream {
                 if (multiStreams) {
                     debugger;
 
-                    // Log.debug1('list of all index items')
-                    // for (let i of this.indexItems) {
-                    //     Log.debug1(i.toJSON());
-                    // }
-                    // Log.debug1('----------------------')
                     // TODO - try this with different types of attachments, includin PDF
                     //  may be issue with zlib and PDF files. also, mutiple attachments.
                     for (let i of this.indexItems) {
@@ -162,7 +156,7 @@ export class PSTNodeInputStream {
             }
             this.seek(long.ZERO);
         } catch (err) {
-            Log.error('PSTNodeInputStream::detectZlib Unable to decompress reportedly compressed block\n' + err);
+            console.error('PSTNodeInputStream::detectZlib Unable to decompress reportedly compressed block\n' + err);
             throw err;
         }
     }
