@@ -41,7 +41,6 @@ import { PSTObject } from '../PSTObject/PSTObject.class';
 import { PSTTableBC } from '../PSTTableBC/PSTTableBC.class';
 import { PSTTableItem } from '../PSTTableItem/PSTTableItem.class';
 import { PSTUtil } from '../PSTUtil/PSTUtil.class';
-import * as fs from 'fs';
 import * as util from 'util';
 import * as long from 'long';
 const uuidparse = require('uuid-parse');
@@ -97,19 +96,11 @@ export class PSTFile {
         return this._pstFileType;
     }
 
-    private _pstFilename: string = '';
-    public get pstFilename(): string {
-        return this._pstFilename;
-    }
-
     // b-tree
     private childrenDescriptorTree: Map<number, DescriptorIndexNode[]> | null = null;
 
     // node tree maps
     private static nodeMap: NodeMap = new NodeMap();
-
-    // file descriptor
-    private pstFD: number;
 
     // in-memory file buffer (instead of filesystem)
     private pstBuffer: Buffer = new Buffer(0);
@@ -119,21 +110,12 @@ export class PSTFile {
 
     /**
      * Creates an instance of PSTFile.  File is opened in constructor.
-     * @param {string} fileName 
+     * @param {Buffer} pstBuffer 
      * @memberof PSTFile
      */
     public constructor(pstBuffer: Buffer);
-    public constructor(fileName: string);
-    public constructor(arg: any) {
-        if (arg instanceof Buffer) {
-            // use an in-memory buffer of PST
-            this.pstBuffer = arg;
-            this.pstFD = -1;
-        } else {
-            // use PST in filesystem 
-            this._pstFilename = arg;
-            this.pstFD = fs.openSync(this._pstFilename, 'r');
-        }
+        // use an in-memory buffer of PST
+        this.pstBuffer = arg;
 
         // confirm first 4 bytes are !BDN
         let buffer = new Buffer(514);
@@ -164,16 +146,6 @@ export class PSTFile {
 
         // build out name to id map
         this.processNameToIDMap();
-    }
-
-    /**
-     * Close the file.
-     * @memberof PSTFile
-     */
-    public close() {
-        if (this.pstFD > 0) {
-            fs.closeSync(this.pstFD);
-        }
     }
 
     /**
@@ -828,14 +800,9 @@ export class PSTFile {
      * @memberof PSTFile
      */
     private readSync(buffer: Buffer, length: number, position: number): number {
-        if (this.pstFD > 0) {
-            // read from file system
-            return fs.readSync(this.pstFD, buffer, 0, length, position);
-        } else {
-            // copy from in-memory buffer
-            this.pstBuffer.copy(buffer, 0, position, position + length);
-            return length;
-        }
+        // copy from in-memory buffer
+        this.pstBuffer.copy(buffer, 0, position, position + length);
+        return length;
     }
 
     /**
