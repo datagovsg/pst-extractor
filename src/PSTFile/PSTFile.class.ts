@@ -113,9 +113,9 @@ export class PSTFile {
      * @param {Buffer} pstBuffer 
      * @memberof PSTFile
      */
-    public constructor(pstBuffer: Buffer);
+    public constructor(pstBuffer: Buffer) {
         // use an in-memory buffer of PST
-        this.pstBuffer = arg;
+        this.pstBuffer = pstBuffer;
 
         // confirm first 4 bytes are !BDN
         let buffer = new Buffer(514);

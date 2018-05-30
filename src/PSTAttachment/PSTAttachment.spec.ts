@@ -7,22 +7,19 @@ import { PSTAttachment } from './PSTAttachment.class';
 import { PSTTask } from '../PSTTask/PSTTask.class';
 import { PSTMessage } from '../PSTMessage/PSTMessage.class';
 const resolve = require('path').resolve;
+const fs = require("fs")
 const expect = chai.expect;
 let pstFile: PSTFile;
 let subtreeFolder: PSTFolder;
 
 before(() => {
-    pstFile = new PSTFile(resolve('./src/testdata/mtnman1965@outlook.com.ost'));
+    pstFile = new PSTFile(fs.readFileSync('./src/testdata/mtnman1965@outlook.com.ost'));
 
     // get to IPM_SUBTREE folder
     let childFolders: PSTFolder[] = pstFile.getRootFolder().getSubFolders();
     subtreeFolder = childFolders[1]; // Root - Mailbox
     childFolders = subtreeFolder.getSubFolders();
     subtreeFolder = childFolders[4]; // IPM_SUBTREE
-});
-
-after(() => {
-    pstFile.close();
 });
 
 describe('PSTAttachment tests', () => {

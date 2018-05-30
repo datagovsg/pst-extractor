@@ -2,6 +2,7 @@ import * as chai from 'chai';
 import * as mocha from 'mocha';
 import { PSTFile } from './PSTFile.class';
 const resolve = require('path').resolve
+const fs = require("fs")
 const expect = chai.expect;
 let pstFile: PSTFile;
 

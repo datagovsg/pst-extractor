@@ -59,6 +59,6 @@
   },
   "dependencies": {
     "long": "^4.0.0",
-    "uuid-parse": "^1.0.0",
+    "uuid-parse": "^1.0.0"
   }
 }

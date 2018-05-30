@@ -5,12 +5,13 @@ import * as mocha from 'mocha';
 import { PSTFile } from '../PSTFile/PSTFile.class';
 import { PSTFolder } from '../PSTFolder/PSTFolder.class';
 const resolve = require('path').resolve;
+const fs = require("fs")
 const expect = chai.expect;
 let pstFile: PSTFile;
 let childFolders: PSTFolder[];
 
 before(() => {
-    pstFile = new PSTFile(resolve('./src/testdata/michelle_lokay_000_1_1_1_1.pst'));
+    pstFile = new PSTFile(fs.readFileSync('./src/testdata/michelle_lokay_000_1_1_1_1.pst'));
 
     // get to this point in hierarchy
     // Personal folders
@@ -33,10 +34,6 @@ before(() => {
     folder = childFolders[0];
     expect(folder.displayName).to.equal('MLOKAY (Non-Privileged)');
     childFolders = folder.getSubFolders();
-});
-
-after(() => {
-    pstFile.close();
 });
 
 // get these emails
