@@ -40,7 +40,6 @@ import { PSTMessage } from '../PSTMessage/PSTMessage.class';
 import { PSTNodeInputStream } from '../PSTNodeInputStream/PSTNodeInputStream.class';
 import * as long from 'long';
 import { PSTTableItem } from '../PSTTableItem/PSTTableItem.class';
-import { Log } from '../Log.class';
 import { OutlookProperties } from '../OutlookProperties';
 
 // Class containing attachment information.
@@ -144,7 +143,7 @@ export class PSTAttachment extends PSTObject {
                     return PSTUtil.createAppropriatePSTMessageObject(this.pstFile, this.descriptorIndexNode, attachmentTable, this.localDescriptorItems);
                 }
             } catch (err) {
-                Log.error('PSTAttachment::embeddedPSTMessage createAppropriatePSTMessageObject failed\n' + err);
+                console.error('PSTAttachment::embeddedPSTMessage createAppropriatePSTMessageObject failed\n' + err);
                 throw err;
             }
         }

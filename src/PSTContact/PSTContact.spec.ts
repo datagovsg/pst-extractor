@@ -3,14 +3,14 @@ import * as mocha from 'mocha';
 import { PSTFile } from '../PSTFile/PSTFile.class';
 import { PSTFolder } from '../PSTFolder/PSTFolder.class';
 import { PSTContact } from './PSTContact.class';
-import { Log } from '../Log.class';
 const resolve = require('path').resolve;
+const fs = require("fs")
 const expect = chai.expect;
 let pstFile: PSTFile;
 let folder: PSTFolder;
 
 before(() => {
-    pstFile = new PSTFile(resolve('./src/testdata/mtnman1965@outlook.com.ost'));
+    pstFile = new PSTFile(fs.readFileSync('./src/testdata/mtnman1965@outlook.com.ost'));
 
     // get to Contact folder
     let childFolders: PSTFolder[] = pstFile.getRootFolder().getSubFolders();
@@ -21,10 +21,6 @@ before(() => {
     folder = childFolders[10]; // Calendar
 });
 
-after(() => {
-    pstFile.close();
-});
-
 describe('PSTContact tests', () => {
     it('should have a Contact folder', () => {
         expect(folder.displayName).to.equal('Contacts');
@@ -32,7 +28,6 @@ describe('PSTContact tests', () => {
  
     it('should have a contact with several fields', () => {
         let contact: PSTContact = folder.getNextChild();
-        // Log.debug1(JSON.stringify(contact, null, 2));
         expect(contact.messageClass).to.equal('IPM.Contact');
         expect(contact.subject).to.equal('Ed Pfromer');
         expect(contact.importance).to.equal(1);

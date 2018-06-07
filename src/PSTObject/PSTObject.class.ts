@@ -39,7 +39,6 @@ import { PSTUtil } from '../PSTUtil/PSTUtil.class';
 import { OffsetIndexItem } from '../OffsetIndexItem/OffsetIndexItem.class';
 import { PSTFolder } from '../PSTFolder/PSTFolder.class';
 import { PSTMessage } from '../PSTMessage/PSTMessage.class';
-import { Log } from '../Log.class';
 import * as long from 'long';
 import { PSTTableItem } from '../PSTTableItem/PSTTableItem.class';
 import { OutlookProperties } from '../OutlookProperties';
@@ -228,7 +227,7 @@ export abstract class PSTObject {
                 if (item.data != null && item.data.length == 8) {
                     return PSTUtil.convertLittleEndianBytesToLong(item.data, 0, 8);
                 } else {
-                    Log.error('PSTObject::getLongItem Invalid data length for long id ' + identifier);
+                    console.error('PSTObject::getLongItem Invalid data length for long id ' + identifier);
                     // Return the default value for now...
                 }
             }
@@ -277,7 +276,7 @@ export abstract class PSTObject {
 
                     return PSTUtil.createJavascriptString(data, stringType, codepage);
                 } catch (err) {
-                    Log.error('PSTObject::getStringItem error decoding string\n' + err);
+                    console.error('PSTObject::getStringItem error decoding string\n' + err);
                     return '';
                 }
             }
@@ -344,7 +343,7 @@ export abstract class PSTObject {
                     try {
                         return descItem ? descItem.getData() : null;
                     } catch (err) {
-                        Log.error('PSTObject::Exception reading binary item\n' + err);
+                        console.error('PSTObject::Exception reading binary item\n' + err);
                         throw err;
                     }
                 }

@@ -38,7 +38,6 @@ import { PSTDescriptorItem } from '../PSTDescriptorItem/PSTDescriptorItem.class'
 import { PSTUtil } from '../PSTUtil/PSTUtil.class';
 import { NodeInfo } from '../NodeInfo/NodeInfo.class';
 import { PSTFile } from '../PSTFile/PSTFile.class';
-import { Log } from '../Log.class';
 import * as long from 'long';
 import { PSTTableItem } from '../PSTTableItem/PSTTableItem.class';
 
@@ -284,7 +283,6 @@ export class PSTTable7C extends PSTTable {
             dataSetNumber++;
             currentValueArrayStart += this.TCI_bm;
         }
-        Log.debug2('PSTTable7C::getItems number of items = ' + itemList.length);
         if (setLocalList) {
             this.items = itemList;
         }

@@ -4,17 +4,13 @@ import * as mocha from 'mocha';
 import { PSTFile } from '../PSTFile/PSTFile.class';
 import { PSTFolder } from '../PSTFolder/PSTFolder.class';
 import { PSTMessage } from '../PSTMessage/PSTMessage.class';
-import { Log } from '../Log.class';
 const resolve = require('path').resolve;
+const fs = require("fs")
 const expect = chai.expect;
 let pstFile: PSTFile;
 
 before(() => {
-    pstFile = new PSTFile(resolve('./src/testdata/michelle_lokay_000_1_1_1_1.pst'));
-});
-
-after(() => {
-    pstFile.close();
+    pstFile = new PSTFile(fs.readFileSync('./src/testdata/michelle_lokay_000_1_1_1_1.pst'));
 });
 
 // get these emails
@@ -45,10 +41,8 @@ describe('PSTObject tests', () => {
         childFolders = folder.getSubFolders();
         expect(childFolders[0].displayName).to.equal('TW-Commercial Group');
         const comGroupFolder = childFolders[0];
-        // Log.debug1(JSON.stringify(comGroupFolder, null, 2));
         
         let msg: PSTMessage = comGroupFolder.getNextChild();
-        // Log.debug1(JSON.stringify(msg, null, 2));
         expect(msg.messageClass).to.equal('IPM.Note');
         expect(msg.stringCodepage).to.equal('us-ascii');
         expect(msg.messageSize.toNumber()).to.equal(653764);

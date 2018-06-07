@@ -3,14 +3,14 @@ import * as chai from 'chai';
 import * as mocha from 'mocha';
 import { PSTFile } from '../PSTFile/PSTFile.class';
 import { PSTFolder } from '../PSTFolder/PSTFolder.class';
-import { Log } from '../Log.class';
 const resolve = require('path').resolve;
+const fs = require("fs")
 const expect = chai.expect;
 let pstFile: PSTFile;
 let folder: PSTFolder;
 
 before(() => {
-    pstFile = new PSTFile(resolve('./src/testdata/mtnman1965@outlook.com.ost'));
+    pstFile = new PSTFile(fs.readFileSync('./src/testdata/mtnman1965@outlook.com.ost'));
 
     // get to Journal folder
     let childFolders: PSTFolder[] = pstFile.getRootFolder().getSubFolders();
@@ -21,10 +21,6 @@ before(() => {
     folder = childFolders[15]; // Journal
 });
 
-after(() => {
-    pstFile.close();
-});
-
 describe('PSTActivity tests', () => {
     it('should have a Journal folder', () => {
         expect(folder.displayName).to.equal('Journal');
@@ -32,7 +28,6 @@ describe('PSTActivity tests', () => {
 
     it('root folder should have a journal entry', () => {
         let activity: PSTActivity = folder.getNextChild();
-        // Log.debug1(JSON.stringify(activity, null, 2));
         expect(activity.messageClass).to.equal('IPM.Activity');
         expect(activity.subject).to.equal('called Ed');
         expect(activity.logTypeDesc).to.equal('Phone call');

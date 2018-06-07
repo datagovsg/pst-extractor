@@ -2,17 +2,13 @@ import { PSTFolder } from './PSTFolder.class';
 import * as chai from 'chai';
 import * as mocha from 'mocha';
 import { PSTFile } from '../PSTFile/PSTFile.class';
-import { Log } from '../Log.class';
 const resolve = require('path').resolve
+const fs = require("fs")
 const expect = chai.expect;
 let pstFile: PSTFile;
 
 before(() => {
-    pstFile = new PSTFile(resolve('./src/testdata/michelle_lokay_000_1_1_1_1.pst'));
-});
-
-after(() => {
-    pstFile.close();
+    pstFile = new PSTFile(fs.readFileSync('./src/testdata/michelle_lokay_000_1_1_1_1.pst'));
 });
 
 describe('PSTFolder tests', () => {
@@ -47,7 +43,6 @@ describe('PSTFolder tests', () => {
         expect(folder.displayName).to.equal('Deleted Items');
         folder = childFolders[1];
         expect(folder.displayName).to.equal('lokay-m');
-        // Log.debug1(JSON.stringify(folder, null, 2));
         childFolders = folder.getSubFolders();
         folder = childFolders[0];
         expect(folder.displayName).to.equal('MLOKAY (Non-Privileged)');
@@ -64,7 +59,6 @@ describe('PSTFolder tests', () => {
         expect(folder.containerFlags).to.equal(0);
         expect(folder.containerClass).to.equal('IPF.Note');
         expect(folder.hasSubfolders).to.equal(true);
-        // Log.debug1(JSON.stringify(folder, null, 2));
 
         folder.moveChildCursorTo(0);
         folder.moveChildCursorTo(1);

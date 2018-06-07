@@ -39,7 +39,6 @@ import { PSTTable7C } from '../PSTTable7C/PSTTable7C.class';
 import { PSTNodeInputStream } from '../PSTNodeInputStream/PSTNodeInputStream.class';
 import { PSTTableBC } from '../PSTTableBC/PSTTableBC.class';
 import * as long from 'long';
-import { Log } from '../Log.class';
 import { PSTTableItem } from '../PSTTableItem/PSTTableItem.class';
 import { OutlookProperties } from '../OutlookProperties';
 
@@ -100,7 +99,7 @@ export class PSTFolder extends PSTObject {
                 }
             }
         } catch (err) {
-            Log.error("PSTFolder::getSubFolders Can't get child folders for folder " + this.displayName + '\n' + err);
+            console.error("PSTFolder::getSubFolders Can't get child folders for folder " + this.displayName + '\n' + err);
             throw err;
         }
         return output;
@@ -131,7 +130,7 @@ export class PSTFolder extends PSTObject {
             let pstNodeInputStream = new PSTNodeInputStream(this.pstFile, offsetIndexItem);
             this.subfoldersTable = new PSTTable7C(pstNodeInputStream, tmp);
         } catch (err) {
-            Log.error("PSTFolder::initSubfoldersTable Can't get child folders for folder " + this.displayName + '\n' + err);
+            console.error("PSTFolder::initSubfoldersTable Can't get child folders for folder " + this.displayName + '\n' + err);
             throw err;
         }
     }
@@ -162,7 +161,7 @@ export class PSTFolder extends PSTObject {
             this.emailsTable = new PSTTable7C(pstNodeInputStream, tmp, 0x67f2);
         } catch (err) {
             // fallback to children as listed in the descriptor b-tree
-            Log.error(`PSTFolder::initEmailsTable Can't get child folders for folder {this.displayName}, resorting to using alternate tree`);
+            console.error(`PSTFolder::initEmailsTable Can't get child folders for folder {this.displayName}, resorting to using alternate tree`);
             let tree = this.pstFile.getChildDescriptorTree();
             this.fallbackEmailsTable = [];
             let allChildren = tree.get(this.descriptorIndexNode.descriptorIdentifier);
